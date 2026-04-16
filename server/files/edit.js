@@ -19,7 +19,7 @@ function getMovie() {
   const movie = {};
 
   const elements = Array.from(document.forms[0].elements).filter(
-    (element) => element.id,
+      (element) => element.id,
   );
 
   for (const element of elements) {
@@ -37,15 +37,15 @@ function getMovie() {
         }
       }
     } else if (
-      name === "Metascore" ||
-      name === "Runtime" ||
-      name === "imdbRating"
+        name === "Metascore" ||
+        name === "Runtime" ||
+        name === "imdbRating"
     ) {
       value = Number(element.value);
     } else if (
-      name === "Actors" ||
-      name === "Directors" ||
-      name === "Writers"
+        name === "Actors" ||
+        name === "Directors" ||
+        name === "Writers"
     ) {
       value = element.value.split(",").map((item) => item.trim());
     } else {
@@ -59,13 +59,7 @@ function getMovie() {
 }
 
 function putMovie() {
-  /* Task 3.3. 
-    - Get the movie data using getMovie()
-    - Configure the XMLHttpRequest to make a PUT to /movies/:imdbID
-    - Set the 'Content-Type' appropriately for JSON data
-    - Configure the function below as the onload event handler
-    - Send the movie data as JSON
-  */
+  const movie = getMovie()
 
   const xhr = new XMLHttpRequest();
   xhr.onload = function () {
@@ -75,6 +69,10 @@ function putMovie() {
       alert("Saving of movie data failed. Status code was " + xhr.status);
     }
   };
+
+  xhr.open("PUT", "/movies/" + movie.imdbID)
+  xhr.setRequestHeader("Content-Type", "application/json")
+  xhr.send(JSON.stringify(movie))
 }
 
 /** Loading and setting the movie data for the movie with the passed imdbID */
@@ -87,7 +85,7 @@ xhr.onload = function () {
     setMovie(JSON.parse(xhr.responseText));
   } else {
     alert(
-      "Loading of movie data failed. Status was " +
+        "Loading of movie data failed. Status was " +
         xhr.status +
         " - " +
         xhr.statusText,
@@ -96,4 +94,3 @@ xhr.onload = function () {
 };
 
 xhr.send();
-
